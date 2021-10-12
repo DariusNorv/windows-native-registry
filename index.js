@@ -25,14 +25,18 @@ var REG;
 })(REG = exports.REG || (exports.REG = {}));
 var native;
 function getNative() {
+    if (process.platform !== "win32") {
+        return;
+    }
     if (!native) {
         native = require('./build/Release/native.node');
     }
     return native;
 }
 function getRegistryKey(root, path) {
+    var _a;
     var ret = {};
-    var key = getNative().getKey(root, path);
+    var key = (_a = getNative()) === null || _a === void 0 ? void 0 : _a.getKey(root, path);
     if (!key) {
         return null;
     }
@@ -52,18 +56,22 @@ function getRegistryValue(root, path, name) {
 }
 exports.getRegistryValue = getRegistryValue;
 function setRegistryValue(root, path, name, type, value) {
-    return getNative().setValue(root, path, type, name, value);
+    var _a;
+    return (_a = getNative()) === null || _a === void 0 ? void 0 : _a.setValue(root, path, type, name, value);
 }
 exports.setRegistryValue = setRegistryValue;
 function listRegistrySubkeys(root, path) {
-    return getNative().listSubkeys(root, path);
+    var _a;
+    return (_a = getNative()) === null || _a === void 0 ? void 0 : _a.listSubkeys(root, path);
 }
 exports.listRegistrySubkeys = listRegistrySubkeys;
 function createRegistryKey(root, path) {
-    return getNative().createKey(root, path);
+    var _a;
+    return (_a = getNative()) === null || _a === void 0 ? void 0 : _a.createKey(root, path);
 }
 exports.createRegistryKey = createRegistryKey;
 function deleteRegistryKey(root, path) {
-    return getNative().deleteKey(root, path);
+    var _a;
+    return (_a = getNative()) === null || _a === void 0 ? void 0 : _a.deleteKey(root, path);
 }
 exports.deleteRegistryKey = deleteRegistryKey;

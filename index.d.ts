@@ -23,11 +23,12 @@ export declare enum REG {
     MULTI_SZ = 7,
     RESOURCE_LIST = 8
 }
-export declare function getRegistryKey(root: HK, path: string): {
+interface RegistryItems {
     [name: string]: RegistryValue;
-};
-export declare function getRegistryValue(root: HK, path: string, name: string): any;
-export declare function setRegistryValue(root: HK, path: string, name: string, type: REG, value: string): any;
-export declare function listRegistrySubkeys(root: HK, path: string): string[];
-export declare function createRegistryKey(root: HK, path: string): any;
-export declare function deleteRegistryKey(root: HK, path: string): any;
+}
+export declare function getRegistryKey(root: HK, path: string): RegistryItems | null;
+export declare function getRegistryValue(root: HK, path: string, name: string): any | null;
+export declare function setRegistryValue(root: HK, path: string, name: string, type: REG, value: string): any | undefined;
+export declare function listRegistrySubkeys(root: HK, path: string): string[] | undefined;
+export declare function createRegistryKey(root: HK, path: string): void;
+export declare function deleteRegistryKey(root: HK, path: string): void;

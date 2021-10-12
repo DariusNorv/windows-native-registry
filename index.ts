@@ -26,17 +26,33 @@ export enum REG {
     RESOURCE_LIST = 8
 }
 
-let native
-function getNative () {
+interface RegistryItems {
+    [name: string]: RegistryValue
+}
+
+interface NativeModule {
+    getKey(root: HK, path: string): any;
+    setValue(root: HK, path: string, type: REG, name: string, value: string): any;
+    listSubkeys(root: HK, path: string): string[];
+    createKey(root: HK, path: string): void
+    deleteKey(root: HK, path: string): void
+}
+
+
+let native: NativeModule
+function getNative (): NativeModule | undefined {
+    if (process.platform !== "win32") {
+        return;
+    }
     if (!native) {
         native = require('./build/Release/native.node')
     }
     return native
 }
 
-export function getRegistryKey (root: HK, path: string): {[name: string]: RegistryValue} {
-    let ret = {}
-    let key = getNative().getKey(root, path)
+export function getRegistryKey (root: HK, path: string): RegistryItems | null {
+    let ret: RegistryItems = {}
+    let key = getNative()?.getKey(root, path)
     if (!key) {
         return null
     }
@@ -46,7 +62,7 @@ export function getRegistryKey (root: HK, path: string): {[name: string]: Regist
     return ret
 }
 
-export function getRegistryValue (root: HK, path: string, name: string): any {
+export function getRegistryValue (root: HK, path: string, name: string): any | null{
     let key = getRegistryKey(root, path)
     if (!key || !key[name]) {
         return null
@@ -54,18 +70,18 @@ export function getRegistryValue (root: HK, path: string, name: string): any {
     return key[name].value
 }
 
-export function setRegistryValue (root: HK, path: string, name: string, type: REG, value: string): any {
-    return getNative().setValue(root, path, type, name, value)
+export function setRegistryValue (root: HK, path: string, name: string, type: REG, value: string): any | undefined {
+    return getNative()?.setValue(root, path, type, name, value)
 }
 
-export function listRegistrySubkeys (root: HK, path: string): string[] {
-  return getNative().listSubkeys(root, path)
+export function listRegistrySubkeys (root: HK, path: string): string[] | undefined {
+  return getNative()?.listSubkeys(root, path)
 }
 
-export function createRegistryKey (root: HK, path: string) {
-  return getNative().createKey(root, path)
+export function createRegistryKey (root: HK, path: string): void {
+  return getNative()?.createKey(root, path)
 }
 
-export function deleteRegistryKey (root: HK, path: string) {
-  return getNative().deleteKey(root, path)
+export function deleteRegistryKey (root: HK, path: string): void {
+  return getNative()?.deleteKey(root, path)
 }
