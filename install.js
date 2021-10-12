@@ -2,4 +2,4 @@ if (process.platform !== "win32") {
     return;
 }
 
-require("child_process").spawnSync("node-hyp rebuild");
+require("child_process").execSync(`node-gyp rebuild`);
