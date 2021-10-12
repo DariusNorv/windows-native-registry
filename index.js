@@ -29,7 +29,7 @@ function getNative() {
         return;
     }
     if (!native) {
-        native = require('./build/Release/native.node');
+        native = require("bindings")("native.node");
     }
     return native;
 }
