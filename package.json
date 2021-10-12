@@ -13,9 +13,6 @@
   "bugs": {
     "url": "https://github.com/Eugeny/windows-native-registry/issues"
   },
-  "os": [
-    "win32"
-  ],
   "dependencies": {
     "node-addon-api": "^3.1.0"
   },
@@ -26,6 +23,7 @@
     "typescript": "^4.2.4"
   },
   "scripts": {
+    "install": "node install",
     "build": "tsc -d index.ts",
     "test": "mocha"
   }
